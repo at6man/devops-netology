@@ -11,9 +11,9 @@ output "aws_region" {
 }
 
 output "aws_instance_ip_addr" {
-    value = aws_instance.server.private_ip
+    value = aws_instance.server.*.private_ip
 }
 
 output "aws_instance_subnet_id" {
-    value = aws_instance.server.subnet_id
+    value = aws_instance.server.*.subnet_id
 }
