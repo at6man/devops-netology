@@ -4,6 +4,6 @@
 ok2
 тест
 new line
-новая строка 2
+new line 2
 ok
 проверка
