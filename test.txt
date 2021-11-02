@@ -4,5 +4,6 @@
 ok2
 тест
 new line
+new line 2
 ok
 проверка
