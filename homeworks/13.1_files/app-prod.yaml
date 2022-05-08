@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: front
+  name: front
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: front
+  template:
+    metadata:
+      labels:
+        app: front
+    spec:
+      containers:
+      - image: hw131-frontend:latest
+        imagePullPolicy: IfNotPresent
+        name: front-2
+        env:
+        - name: BASE_URL
+          value: "http://localhost:9000"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: back
+  name: back
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: back
+  template:
+    metadata:
+      labels:
+        app: back
+    spec:
+      containers:
+      - image: hw131-backend:latest
+        imagePullPolicy: IfNotPresent
+        name: back-2
+        env:
+        - name: DATABASE_URL
+          value: "postgres://postgres:postgres@db:5432/news"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: front
+spec:
+  ports:
+  - name: front
+    port: 8000
+    targetPort: 80
+  selector:
+    app: front
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: back
+spec:
+  ports:
+  - name: back
+    port: 9000
+    targetPort: 9000
+  selector:
+    app: back
+
