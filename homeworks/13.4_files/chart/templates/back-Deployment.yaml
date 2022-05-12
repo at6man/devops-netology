@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: back
+  name: back
+spec:
+  replicas: {{ .Values.back.replicaCount }}
+  selector:
+    matchLabels:
+      app: back
+  template:
+    metadata:
+      labels:
+        app: back
+    spec:
+      containers:
+      - image: "{{ .Values.back.image.repository }}:{{ .Values.back.image.tag }}"
+        imagePullPolicy: IfNotPresent
+        name: back-2
+        env:
+        - name: DATABASE_URL
+          value: "postgres://postgres:postgres@db:{{ .Values.db.port }}/{{ .Values.db.dbName }}"
+

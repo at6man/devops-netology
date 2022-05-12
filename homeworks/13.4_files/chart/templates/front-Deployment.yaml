@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: front
+  name: front
+spec:
+  replicas: {{ .Values.front.replicaCount }}
+  selector:
+    matchLabels:
+      app: front
+  template:
+    metadata:
+      labels:
+        app: front
+    spec:
+      containers:
+      - image: "{{ .Values.front.image.repository }}:{{ .Values.front.image.tag }}"
+        imagePullPolicy: IfNotPresent
+        name: front-2
+        env:
+        - name: BASE_URL
+          value: "http://localhost:{{ .Values.back.port }}"
+

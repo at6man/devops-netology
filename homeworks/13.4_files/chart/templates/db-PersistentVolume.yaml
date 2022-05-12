@@ -1,0 +1,16 @@
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: postgres-pv-{{ .Release.Name }}
+  labels:
+    app: db
+    type: local
+spec:
+  storageClassName: standard
+  capacity:
+    storage: {{ .Values.db.storageSize }}
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/var/data"
+
