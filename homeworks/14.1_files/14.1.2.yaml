@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: test-secrets
+  name: test-secrets
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: test-secrets
+  template:
+    metadata:
+      labels:
+        app: test-secrets
+    spec:
+      containers:
+      - image: praqma/network-multitool:alpine-extra
+        imagePullPolicy: IfNotPresent
+        name: test-secrets
+        env:
+        - name: TEST_TLS_CRT
+          valueFrom:
+            secretKeyRef:
+              name: domain-cert
+              key: tls.crt
+        - name: TEST_TLS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: domain-cert
+              key: tls.key
+        volumeMounts:
+        - mountPath: "/static/certs"
+          name: certs
+      volumes:
+      - name: certs
+        secret:
+          secretName: domain-cert
+
